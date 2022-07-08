@@ -69,6 +69,7 @@ class MapperTests {
 			params.setContent(i+"번 내용");
 			params.setWriter(i+"테스터");
 			boardMapper.insertBoard(params);
+			
 		}
 	}
 	
