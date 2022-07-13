@@ -25,6 +25,11 @@ public class BoardServiceImpl implements BoardService {
 		} else {						//있다면 글 수정
 			queryResult = boardMapper.updateBoard(params);
 		}
+		
+		/*
+		 * BoardDTO board = null;
+		 * System.out.println(board.getTitle());
+		 */
 
 		return (queryResult == 1) ? true : false;
 	}
