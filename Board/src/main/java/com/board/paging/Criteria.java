@@ -1,5 +1,8 @@
 package com.board.paging;
 
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,4 +35,18 @@ public class Criteria {
 		return (currentPageNo - 1) * recordsPerPage;
 	}
 
+	//Criteria 클래스의 멤버 변수들을 쿼리 스트링(Query String) 형태로 반환합니다.
+	public String makeQueryString(int pageNo) {
+
+		UriComponents uriComponents = UriComponentsBuilder.newInstance()
+				.queryParam("currentPageNo", pageNo)
+				.queryParam("recordsPerPage", recordsPerPage)
+				.queryParam("pageSize", pageSize)
+				.queryParam("searchType", searchType)
+				.queryParam("searchKeyword", searchKeyword)
+				.build()
+				.encode();
+
+		return uriComponents.toUriString();
+	}
 }
