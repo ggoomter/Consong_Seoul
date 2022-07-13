@@ -32,9 +32,11 @@ public class LoggerAspect {
 			type = "Mapper ===> ";
 		}
 
-		//어느 패키지의 어느클래스에서 어떤함수가 호출되었는지 로그찍음
-		logger.debug(type + name + "." + joinPoint.getSignature().getName() + "()");
-		return joinPoint.proceed();
+		//어느 패키지의 어느클래스에서 어떤함수가 호출되었는지 로그찍기
+		logger.debug("어라운드전 : "+type + name + "." + joinPoint.getSignature().getName() + "()");
+		Object result =  joinPoint.proceed();
+		logger.debug("어라운드후 : "+type + name + "." + joinPoint.getSignature().getName() + "()");
+		return result;
 	}
 
 }
