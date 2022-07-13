@@ -50,4 +50,18 @@
 			</th:block>
 		</div>
 	</th:block>
+	
+	
+	<th:block layout:fragment="script">
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+
+			function movePage(uri, queryString) {
+				location.href = uri + queryString;
+			}
+
+			/*]]>*/
+		</script>
+	</th:block>
+	
 </html>
