@@ -5,12 +5,7 @@
 	</th:block>
 
 	<th:block layout:fragment="search">
-		<form action="#" id="searchform-header" class="searchform js__toggle active pull-right">
-			<input type="search" placeholder="Search..." class="input-search">
-			<button class="mdi mdi-magnify button-search" type="submit">
-				<i class="fa fa-search" aria-hidden="true"></i>
-			</button>
-		</form>
+		<div th:replace="board/fragments/common :: search"></div>
 	</th:block>
 
 	<th:block layout:fragment="content">
@@ -27,9 +22,9 @@
 				</thead>
 				<tbody>
 					<tr th:if="${not #lists.isEmpty( boardList )}" th:each="row : ${boardList}">
-						<td scope="row" th:text="${#strings.equals( row.noticeYn, 'Y' ) ? '공지' : row.idx}"></td>
+						<td scope="row" th:text="${#strings.equals( row.noticeYn, 'Y' ) ? '공지' : row.idx}"></td>						
 						<td class="text-left">
-							<a th:href="@{/board/view.do( idx=${row.idx} )}" th:text="${row.title}"></a>
+							<a th:href="|@{/board/view.do}${params.makeQueryString(params.currentPageNo)}&idx=${row.idx}|" th:text="${row.title}"></a>
 						</td>
 						<td th:text="${row.writer}"></td>
 						<td th:text="${#temporals.format( row.insertTime, 'yyyy-MM-dd' )}"></td>
@@ -59,6 +54,34 @@
 			function movePage(uri, queryString) {
 				location.href = uri + queryString;
 			}
+			
+			function searchBoard(form) {
+				/*[- 드롭다운이 아닌 메인 검색 키워드로 검색했을 때 -]*/
+				if (isEmpty(form) == true) {
+					var searchKeyword = document.getElementById("mainSearchKeyword");	//왼쪽 검색어 입력부분
+					//자바스크립트의 searchKeyword는 html의 name이 searchKeyword인 애와 다른애다.
+					
+					//아래화살표 클릭안하고 직접 입력했을경우
+					if (isEmpty(searchKeyword.value) == true) {	//직접입력하는 칸이 비었을경우
+						alert("키워드를 입력해 주세요.");
+						searchKeyword.focus();
+						return false;
+					}
+					
+					//직접입력하는 칸이 안비었을경우
+					form = document.getElementById("searchForm");
+					// form.searchKeyword는 아래화살표를 클릭하고 나오는 키워드입력칸을 말한다.
+					form.searchKeyword.value = searchKeyword.value;	//화살표없이 입력한 데이터를 화살표가 있는 form의 키워드입력칸으로 넣어라
+					form.submit();
+				}
+
+				if (isEmpty(form.searchKeyword.value) == true) {
+					alert("키워드를 입력해 주세요.");
+					form.searchKeyword.focus();
+					return false;
+				}
+			}
+			/*[- end of function -]*/
 
 			/*]]>*/
 		</script>
